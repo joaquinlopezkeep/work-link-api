@@ -11,6 +11,7 @@ django-multiselectfield = "*"
 django-money = "*"
 python-decouple = "*"
 whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
