@@ -13,7 +13,7 @@ import os
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 
-IP_token = 'http://127.0.0.1:8000/o/token/'
+IP_token = 'https://worklink.herokuapp.com/o/token/'
 
 
 class EmployeeViewSet(viewsets.ReadOnlyModelViewSet):
