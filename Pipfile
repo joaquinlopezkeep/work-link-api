@@ -9,9 +9,8 @@ djangorestframework = "*"
 django-oauth-toolkit = "*"
 django-multiselectfield = "*"
 django-money = "*"
-django-filter = "*"
 python-decouple = "*"
-django-cors-headers = "*"
+whitenoise = "*"
 
 [dev-packages]
 
