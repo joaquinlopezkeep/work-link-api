@@ -12,6 +12,7 @@ django-money = "*"
 python-decouple = "*"
 whitenoise = "*"
 gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
