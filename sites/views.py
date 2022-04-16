@@ -42,6 +42,8 @@ class JobViewSet(viewsets.ReadOnlyModelViewSet):
 class ScheduleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['cleaner__email', 'site__name']
 
     def get_queryset(self):
         current_user = self.request.user

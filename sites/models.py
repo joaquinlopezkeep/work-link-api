@@ -41,7 +41,7 @@ class Site(models.Model):
     """
     name = models.CharField(_('Name of the site'), max_length=255)
     address = models.CharField(_('First Line of Address'), max_length=255)
-    post_code = models.CharField(_('Post Code'), max_length=7)
+    post_code = models.CharField(_('Post Code'), max_length=8)
     manager = models.ForeignKey(Employee, limit_choices_to={
                                 'groups__name': 'Managers'}, on_delete=models.SET_NULL, null=True, blank=True, related_name='managers')
     client_name = models.CharField(_('Client Name'), max_length=100)
