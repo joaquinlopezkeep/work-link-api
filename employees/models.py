@@ -45,6 +45,10 @@ class Employee(AbstractUser, PermissionsMixin):
     last_login = models.DateTimeField(auto_now=True)
     objects = EmployeeManager()
 
+    @property
+    def full_name(self):
+        return self.first_name+" "+self.last_name
+
     def __str__(self):
         return self.email
 

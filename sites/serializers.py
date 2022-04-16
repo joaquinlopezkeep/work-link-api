@@ -3,12 +3,22 @@ from .models import *
 
 
 class SiteSerializer(serializers.HyperlinkedModelSerializer):
+    manager = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='email'
+    )
+
     class Meta:
         model = Site
         fields = '__all__'
 
 
 class JobSerializer(serializers.HyperlinkedModelSerializer):
+    cleaner = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='email'
+    )
+
     class Meta:
         model = Job
         fields = '__all__'
