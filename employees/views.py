@@ -1,12 +1,14 @@
+from multiprocessing import context
 import requests
+from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from django.http.request import HttpRequest
+from rest_framework.decorators import api_view, permission_classes, action
 from django.contrib.auth.models import Group
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets
 from .models import Employee
 from .serializers import EmployeeSerializer, GroupSerializer
-from decouple import config
 import os
 
 
@@ -24,16 +26,16 @@ class EmployeeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EmployeeSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        """
-        This method is overridden to enable Managers and IT admin to see all user but
-        Cleaners can only see their profile.
-        """
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def getuser(self, request: HttpRequest):
         current_user = self.request.user
-        group = current_user.groups.values_list('name', flat=True).first()
-        if(group == 'IT Admin' or group == 'Managers'):
-            return Employee.objects.all()
-        return Employee.objects.filter(email=current_user)
+        user_model = Employee.objects.filter(email=current_user)
+        serializer_context = {
+            'request': request
+        }
+        serializer = EmployeeSerializer(
+            user_model, many=True, context=serializer_context)
+        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
