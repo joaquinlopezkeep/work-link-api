@@ -9,6 +9,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets
 from .models import Employee
 from .serializers import EmployeeSerializer, GroupSerializer
+from rest_framework import filters
 import os
 
 
@@ -25,17 +26,8 @@ class EmployeeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     permission_classes = [IsAuthenticated]
-
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
-    def getuser(self, request: HttpRequest):
-        current_user = self.request.user
-        user_model = Employee.objects.filter(email=current_user)
-        serializer_context = {
-            'request': request
-        }
-        serializer = EmployeeSerializer(
-            user_model, many=True, context=serializer_context)
-        return Response(serializer.data)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['email', 'groups__name']
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):

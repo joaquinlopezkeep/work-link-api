@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from django.shortcuts import get_object_or_404
+from rest_framework import filters
 from .models import *
 from .serializers import *
 
@@ -7,6 +7,8 @@ from .serializers import *
 class SiteViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Site.objects.all()
     serializer_class = SiteSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'manager__email']
 
     def get_queryset(self):
         """
@@ -26,6 +28,8 @@ class SiteViewSet(viewsets.ReadOnlyModelViewSet):
 class JobViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['cleaner__email', 'site__name']
 
     def get_queryset(self):
         current_user = self.request.user
