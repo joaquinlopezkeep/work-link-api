@@ -28,16 +28,17 @@ class EmployeeViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['email', 'groups__name']
 
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
-    def getuser(self, request: HttpRequest):
-        current_user = self.request.user
-        user_model = Employee.objects.filter(email=current_user)
-        serializer_context = {
-            'request': request
-        }
-        serializer = EmployeeSerializer(
-            user_model, many=True, context=serializer_context)
-        return Response(serializer.data)
+    # NO LONGER NEED AS SEARCH FILTER DOES THE SAME.
+    # @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    # def getuser(self, request: HttpRequest):
+    #     current_user = self.request.user
+    #     user_model = Employee.objects.filter(email=current_user)
+    #     serializer_context = {
+    #         'request': request
+    #     }
+    #     serializer = EmployeeSerializer(
+    #         user_model, many=True, context=serializer_context)
+    #     return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
